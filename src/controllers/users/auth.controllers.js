@@ -1,4 +1,5 @@
 import { userModel, validateUser } from "../../models/users/user.model.js"
+import { encryptPassword, verifyPassword } from "../../middlewares/hash.password.js"
 
 export class userPermissions {
 
@@ -26,19 +27,21 @@ export class createNewDataUser {
     async createUser(req, res) {
         try {
             const { error, value } = validateUser(req.body)
+
             if (error) {
                 res.status(400).json({ success: false, message: error.details[0].message })
                 return
             }
 
             const { username, lastname, numberPhone, email, password } = value
-
+            const hashedPassword = await encryptPassword(password)
+            
             const userData = {
                 username: username,
                 lastname: lastname,
                 numberPhone: numberPhone,
                 email: email,
-                password: password
+                password: hashedPassword
             }
 
             const saveInDatabase = await userModel.create(userData)
@@ -49,10 +52,25 @@ export class createNewDataUser {
                 res.status(200).json({ success: true, dataCreated: saveInDatabase, message: "se ha creado con éxito" })
             }
 
-
         } catch (error) {
             console.error(error)
             res.json({ error: true, message: error })
+        }
+    }
+
+    async createUserProvider(req, res){
+        try {
+            
+        } catch (error) {
+            console.error(error)
+        }   
+    }
+
+    showUsers = async (req, res) => {
+        try {
+            
+        } catch (error) {
+            console.error(error)
         }
     }
 }

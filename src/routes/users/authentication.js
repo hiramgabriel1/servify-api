@@ -8,13 +8,23 @@ const path = "/api"
 const routerPermissionsUser = Router()
 
 // & login user
-routerPermissionsUser.get(`${path}/v1/authentication-user`, (req, res) => {
+routerPermissionsUser.post(`${path}/v1/authentication-user`, (req, res) => {
     permissionController.authorizationUser(req, res)
 })
-    
-// & create a new user
+
+// & register a new user
 routerPermissionsUser.post(`${path}/v1/create-user`, (req, res) => {
     makeUser.createUser(req, res)
+})
+
+// & register a new provider user
+routerPermissionsUser.post(`${path}/v1/create-user-provider`, (req, res) => {
+    makeUser.createUserProvider(req, res)
+})
+
+// & show all users
+routerPermissionsUser.post(`${path}/v1/create-user-provider`, (req, res) => {
+    makeUser.showUsers(req, res)
 })
 
 export default routerPermissionsUser
