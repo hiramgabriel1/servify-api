@@ -24,9 +24,15 @@ routerPermissionsUser.post(`${path}/v1/create-provider`, (req, res) => {
     makeUser.createUserProvider(req, res)
 })
 
+
+// TODO: DEV endpoints
 // & show all users
 routerPermissionsUser.get(`${path}/v1/admin/users`, (req, res) => {
     admin.showUsers(req, res)
+})
+
+routerPermissionsUser.delete(`${path}/v1/admin/delete/:id`, (req, res) => {
+    admin.deleteData(req, res)
 })
 
 export default routerPermissionsUser
