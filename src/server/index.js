@@ -3,7 +3,7 @@ import morgan from "morgan"
 import dotenv from "dotenv"
 import cors from "cors"
 import { connectionDB } from "../config/connection_db.js"
-import routerPermissionsUser from "../routes/users/authentication.js"
+import routerPermissionsUser from "../routes/users/permissionRouter.js"
 import colors from "colors"
 
 connectionDB()

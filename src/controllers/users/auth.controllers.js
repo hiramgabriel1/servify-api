@@ -68,6 +68,9 @@ export class createNewDataUser {
 
     showUsers = async (req, res) => {
         try {
+            const isfindData = await userModel.find()
+
+            isfindData ? res.json({ success: true, data: isfindData }) : res.json({ success: true, data: isfindData })
             
         } catch (error) {
             console.error(error)

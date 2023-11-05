@@ -22,6 +22,9 @@ const modelUser = new mongoose.Schema(
         },
         password: {
             type: String,
+        },
+        isClientOrProvider: {
+            type: Boolean
         }
     }
 )
@@ -33,7 +36,6 @@ const validateUser = (user) => {
         username: Joi.string()
             .min(3)
             .max(15)
-            .alphanum()
             .required(),
         lastname: Joi.string()
             .min(3)
@@ -46,7 +48,8 @@ const validateUser = (user) => {
             .required(),
         password: Joi.string()
             .min(5)
-            .required()
+            .required(),
+        isClientOrProvider: Joi.bool()
     });
     return schema.validate(user);
 };

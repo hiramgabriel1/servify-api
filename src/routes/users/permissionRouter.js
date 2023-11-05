@@ -23,7 +23,7 @@ routerPermissionsUser.post(`${path}/v1/create-user-provider`, (req, res) => {
 })
 
 // & show all users
-routerPermissionsUser.post(`${path}/v1/create-user-provider`, (req, res) => {
+routerPermissionsUser.get(`${path}/v1/admin/users`, (req, res) => {
     makeUser.showUsers(req, res)
 })
 
