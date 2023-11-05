@@ -29,7 +29,7 @@ const providerModelDatabase = new mongoose.Schema(
 
 const providerModel = model("providers", providerModelDatabase)
 
-// ? validation
+// ? validation data model
 const validateDataProvider = (user) => {
     const Schema = Joi.object({
         username: Joi.string()
