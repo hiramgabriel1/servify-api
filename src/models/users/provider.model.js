@@ -7,6 +7,10 @@ const providerModelDatabase = new mongoose.Schema(
             type: String
         },
 
+        lastname: {
+            type: String
+        },
+
         email: {
             type: String
         },
@@ -42,6 +46,9 @@ const validateDataProvider = (user) => {
             .min(3)
             .max(25)
             .required(),
+        lastname: Joi.string()
+            .min(6)
+            .max(30),
         email: Joi.string()
             .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
             .required(),
@@ -50,7 +57,9 @@ const validateDataProvider = (user) => {
             .required(),
         nameCorporate: Joi.string(),
         nameService: Joi.string()
-            .required()
+            .required(),
+        experience: Joi.string()
+            .alphanum()
     })
 
     return Schema.validate(user)
