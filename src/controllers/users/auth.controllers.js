@@ -1,4 +1,5 @@
 import { userModel, validateUser } from "../../models/users/user.model.js"
+import { providerModel, validateDataProvider } from "../../models/users/provider.model.js"
 import { encryptPassword, verifyPassword } from "../../middlewares/hash.password.js"
 
 export class userPermissions {
@@ -35,7 +36,7 @@ export class createNewDataUser {
 
             const { username, lastname, numberPhone, email, password } = value
             const hashedPassword = await encryptPassword(password)
-            
+
             const userData = {
                 username: username,
                 lastname: lastname,
@@ -58,20 +59,23 @@ export class createNewDataUser {
         }
     }
 
-    async createUserProvider(req, res){
+    async createUserProvider(req, res) {
         try {
-            
+
         } catch (error) {
             console.error(error)
-        }   
+        }
     }
+}
 
+export class adminFunctions {
+    
     showUsers = async (req, res) => {
         try {
             const isfindData = await userModel.find()
 
             isfindData ? res.json({ success: true, data: isfindData }) : res.json({ success: true, data: isfindData })
-            
+
         } catch (error) {
             console.error(error)
         }
