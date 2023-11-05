@@ -29,7 +29,11 @@ export class createNewDataUser {
             const { error, value } = validateUser(req.body)
 
             if (error) {
-                res.status(400).json({ success: false, message: error.details[0].message })
+                res.status(400).json({
+                    success: false, message:
+                        error.details[0].message
+                })
+
                 return
             }
 
@@ -40,13 +44,19 @@ export class createNewDataUser {
             const isExistsUser = await userModel.findOne({ username: username, lastname: lastname })
             if (isExistsUser) {
                 console.log("la persona que intentas registrar ya")
-                res.json({ exists: true, details: "la persona que intentas registrar ya" })
+                res.json({
+                    exists: true,
+                    details: "la persona que intentas registrar ya"
+                })
             }
 
             const emailValidation = await userModel.findOne({ email: email })
             if (emailValidation) {
                 console.log("correo ya existe")
-                res.json({ exists: true, details: "correo ya existe cambia por otro" })
+                res.json({
+                    exists: true,
+                    details: "correo ya existe cambia por otro"
+                })
             }
 
             // ? save data
@@ -60,10 +70,17 @@ export class createNewDataUser {
 
             const saveInDatabase = await userModel.create(userData)
             if (!saveInDatabase) {
-                res.json({ success: false, details: "no se ha podido" })
+                res.json({
+                    success: false,
+                    details: "no se ha podido"
+                })
             }
 
-            res.status(200).json({ success: true, userCreated: saveInDatabase, details: "se ha creado con éxito" })
+            res.status(200).json({
+                success: true,
+                userCreated: saveInDatabase,
+                details: "usuario se ha creado con éxito"
+            })
 
         } catch (error) {
             if (error.code === 1100) {
@@ -74,13 +91,96 @@ export class createNewDataUser {
 
     async createUserProvider(req, res) {
         try {
+            const { error, value } = validateDataProvider(req.body)
+
+            if (error) {
+                res.status(400).json({
+                    success: false,
+                    message: error.details[0].message
+                })
+
+                return
+            }
+            const {
+                username,
+                lastname,
+                email,
+                password,
+                nameCorporate,
+                nameService,
+                experience
+            } = value
+
+            const hashedPassword = await encryptPassword(password)
+
+            // ? validate if user exists in database
+            const isExistsUser = await providerModel.findOne({
+                username: username,
+                lastname: lastname
+            })
+            if (isExistsUser) {
+                console.log("la persona que intentas registrar ya")
+                res.json({
+                    exists: true,
+                    details: "la persona que intentas registrar ya"
+                })
+            }
+
+            const emailValidation = await providerModel.findOne({ email: email })
+            if (emailValidation) {
+                console.log("correo ya existe")
+                res.json({
+                    exists: true,
+                    details: "correo ya existe cambia por otro"
+                })
+            }
+
+            const corporateValidation = await providerModel.findOne({ nameCorporate: nameCorporate })
+            if (corporateValidation) {
+                console.log("la empresa ya existe")
+                res.json({
+                    isExists: true,
+                    details: "ya existe el negocio"
+                })
+            }
+
+            // ? save data
+            const userData = {
+                username: username,
+                lastname: lastname,
+                email: email,
+                password: hashedPassword,
+                nameCorporate: nameCorporate,
+                nameService: nameService,
+                experience: experience
+            }
+
+            const saveInDatabase = await providerModel.create(userData)
+
+            if (!saveInDatabase) {
+                res.json({
+                    success: false,
+                    details: "no se ha podido"
+                })
+            }
+            res.status(200).json({
+                success: true,
+                userCreated: saveInDatabase,
+                details: "provider se ha creado con éxito"
+            })
 
         } catch (error) {
             if (error.code === 1100) {
-                res.status(400).json({ errro: true, details: "algo salió mal xd" })
+                res.status(400).json({
+                    error: true,
+                    details: "algo salió mal"
+                })
             }
             console.error(error.code)
-            res.json({ error: true, details: error.code })
+            res.json({
+                error: true,
+                details: error.code
+            })
         }
     }
 }
@@ -91,11 +191,23 @@ export class adminFunctions {
         try {
             const isfindData = await userModel.find()
 
-            isfindData ? res.json({ success: true, data: isfindData }) : res.json({ success: true, data: isfindData })
+            isfindData
+                ? res.json({
+                    success: true,
+                    data: isfindData
+                })
+
+                : res.json({
+                    success: true,
+                    data: isfindData
+                })
 
         } catch (error) {
             console.error(error)
-            res.json({ error: true, details: error })
+            res.json({
+                error: true,
+                details: error
+            })
         }
     }
 }
