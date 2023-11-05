@@ -37,12 +37,19 @@ export class createNewDataUser {
             const hashedPassword = await encryptPassword(password)
 
             // ? validate if user exists in database
-            const existsEmailInDB = await userModel.findOne({ email: email })
-            if (existsEmailInDB) {
-                res.json({ exists: true, details: "ya éxiste pto" })
-                console.log("ya existe")
+            const isExistsUser = await userModel.findOne({ username: username, lastname: lastname })
+            if (isExistsUser) {
+                console.log("la persona que intentas registrar ya")
+                res.json({ exists: true, details: "la persona que intentas registrar ya" })
             }
 
+            const emailValidation = await userModel.findOne({ email: email })
+            if (emailValidation) {
+                console.log("correo ya existe")
+                res.json({ exists: true, details: "correo ya existe cambia por otro" })
+            }
+
+            // ? save data
             const userData = {
                 username: username,
                 lastname: lastname,
