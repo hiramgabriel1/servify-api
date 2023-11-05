@@ -20,7 +20,6 @@ export class userPermissions {
 
         }
     }
-
 }
 
 export class createNewDataUser {
@@ -37,6 +36,13 @@ export class createNewDataUser {
             const { username, lastname, numberPhone, email, password } = value
             const hashedPassword = await encryptPassword(password)
 
+            // ? validate if user exists in database
+            const existsEmailInDB = await userModel.findOne({ email: email })
+            if (existsEmailInDB) {
+                res.json({ exists: true, details: "ya éxiste pto" })
+                console.log("ya existe")
+            }
+
             const userData = {
                 username: username,
                 lastname: lastname,
@@ -46,16 +52,16 @@ export class createNewDataUser {
             }
 
             const saveInDatabase = await userModel.create(userData)
-
             if (!saveInDatabase) {
-                res.json({ success: false, message: "no se ha podido" })
-            } else {
-                res.status(200).json({ success: true, dataCreated: saveInDatabase, message: "se ha creado con éxito" })
+                res.json({ success: false, details: "no se ha podido" })
             }
 
+            res.status(200).json({ success: true, userCreated: saveInDatabase, details: "se ha creado con éxito" })
+
         } catch (error) {
-            console.error(error)
-            res.json({ error: true, message: error })
+            if (error.code === 1100) {
+                console.log(error)
+            }
         }
     }
 
@@ -63,13 +69,17 @@ export class createNewDataUser {
         try {
 
         } catch (error) {
-            console.error(error)
+            if (error.code === 1100) {
+                res.status(400).json({ errro: true, details: "algo salió mal xd" })
+            }
+            console.error(error.code)
+            res.json({ error: true, details: error.code })
         }
     }
 }
 
 export class adminFunctions {
-    
+
     showUsers = async (req, res) => {
         try {
             const isfindData = await userModel.find()
@@ -78,6 +88,7 @@ export class adminFunctions {
 
         } catch (error) {
             console.error(error)
+            res.json({ error: true, details: error })
         }
     }
 }

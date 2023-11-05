@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { userPermissions, createNewDataUser } from "../../controllers/users/auth.controllers.js";
+import { adminFunctions } from "../../controllers/users/auth.controllers.js";
 
 const permissionController = new userPermissions()
 const makeUser = new createNewDataUser()
+const admin = new adminFunctions()
 
 const path = "/api"
 const routerPermissionsUser = Router()
@@ -18,13 +20,13 @@ routerPermissionsUser.post(`${path}/v1/create-user`, (req, res) => {
 })
 
 // & register a new provider user
-routerPermissionsUser.post(`${path}/v1/create-user-provider`, (req, res) => {
+routerPermissionsUser.post(`${path}/v1/create-provider`, (req, res) => {
     makeUser.createUserProvider(req, res)
 })
 
 // & show all users
 routerPermissionsUser.get(`${path}/v1/admin/users`, (req, res) => {
-    makeUser.showUsers(req, res)
+    admin.showUsers(req, res)
 })
 
 export default routerPermissionsUser
