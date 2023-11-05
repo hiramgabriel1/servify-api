@@ -13,16 +13,16 @@ const modelUser = new mongoose.Schema(
 
         numberPhone: {
             type: Number,
-            unique: true,
         },
 
         email: {
             type: String,
-            unique: true,
         },
+
         password: {
             type: String,
         },
+
         isClientOrProvider: {
             type: Boolean
         }

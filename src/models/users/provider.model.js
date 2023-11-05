@@ -6,21 +6,27 @@ const providerModelDatabase = new mongoose.Schema(
         username: {
             type: String
         },
+
         email: {
             type: String
         },
+
         password: {
             type: String
         },
+
         nameCorporate: {
             type: String
         },
+
         nameService: {
             type: String
         },
+
         experience: {
             type: String
         },
+
         images: {
             type: String
         }
