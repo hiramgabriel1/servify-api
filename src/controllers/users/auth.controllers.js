@@ -210,4 +210,19 @@ export class adminFunctions {
             })
         }
     }
+
+    async deleteData(req, res) {
+        try {
+            const queryFindId = await userModel.findByIdAndRemove(req.params.id)
+
+            if (!queryFindId) {
+                return res.status(404).json({ message: 'Documento no encontrado' });
+            }
+
+            return res.status(200).json({ message: 'Documento eliminado con éxito' });
+        } catch (error) {
+            console.error(error)
+            throw new Error(error)
+        }
+    }
 }
