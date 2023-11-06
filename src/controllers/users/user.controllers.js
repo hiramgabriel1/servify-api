@@ -1,23 +1,49 @@
 import { userModel, validateUser } from "../../models/users/user.model.js"
 import { providerModel, validateDataProvider } from "../../models/users/provider.model.js"
-import { encryptPassword, verifyPassword } from "../../middlewares/hash.password.js"
+import { encryptPassword, comparePassword } from "../../middlewares/hash.password.js"
+import bcrypt, { hash } from "bcrypt"
+import dotenv from "dotenv"
+import jwt from "jsonwebtoken"
+
+dotenv.config()
 
 export class userPermissions {
 
     async authorizationUser(req, res) {
         try {
-            res.json({ message: "hello world" })
+
         } catch (error) {
             console.error(error)
-            throw new Error(error)
+            throw Error(error)
         }
     }
 
     async authenticationUser(req, res) {
         try {
+            const { email, password } = req.body
+
+            // check if find data in database
+            const queryFindDataLogin = await userModel.findOne({ email: email })
+
+            !queryFindDataLogin
+                ? console.log("not found data")
+                : console.log("correo existente")
+
+            const { password: hashedPassword } = queryFindDataLogin
+            const matchPassword = await bcrypt.compare(password, hashedPassword)
+
+            if (matchPassword && queryFindDataLogin) {
+                console.log("coinciden")
+
+                const token = jwt.sign({ id: userModel._id }, process.env.SECRET_KEY, { expiresIn: 86400 })
+
+                return res.json({ details: "Authentication started!", token: token })
+            } else {
+                res.status(403).json({ details: "El correo o contraseña no coinciden. Intenta de nuevo" })
+            }
 
         } catch (error) {
-
+            console.log(error)
         }
     }
 }
@@ -76,10 +102,15 @@ export class createNewDataUser {
                 })
             }
 
+            const token = jwt.sign({ id: saveInDatabase._id }, process.env.SECRET_KEY, {
+                expiresIn: 86400
+            })
+
             res.status(200).json({
                 success: true,
                 userCreated: saveInDatabase,
-                details: "usuario se ha creado con éxito"
+                details: "usuario se ha creado con éxito",
+                isToken: token
             })
 
         } catch (error) {

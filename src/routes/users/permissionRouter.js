@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { userPermissions, createNewDataUser } from "../../controllers/users/auth.controllers.js";
-import { adminFunctions } from "../../controllers/users/auth.controllers.js";
+import { userPermissions, createNewDataUser } from "../../controllers/users/user.controllers.js";
+import { adminFunctions } from "../../controllers/users/user.controllers.js";
+// import { verifyToken } from "../../helpers/jwt.config.js";
 
 const permissionController = new userPermissions()
 const makeUser = new createNewDataUser()
@@ -11,8 +12,9 @@ const routerPermissionsUser = Router()
 
 // & login user
 routerPermissionsUser.post(`${path}/v1/authentication-user`, (req, res) => {
-    permissionController.authorizationUser(req, res)
+    permissionController.authenticationUser(req, res)
 })
+
 
 // & register a new user
 routerPermissionsUser.post(`${path}/v1/create-user`, (req, res) => {
