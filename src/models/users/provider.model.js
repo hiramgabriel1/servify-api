@@ -31,11 +31,17 @@ const providerModelDatabase = new mongoose.Schema(
             type: String
         },
 
+        role: {
+            type: String
+        },
+
         images: {
             type: String
         }
     }
 )
+
+providerModelDatabase.index({ role: "role" })
 
 const providerModel = model("providers", providerModelDatabase)
 
@@ -59,7 +65,9 @@ const validateDataProvider = (user) => {
         nameService: Joi.string()
             .required(),
         experience: Joi.string()
-            .alphanum()
+            .alphanum(),
+        role: Joi.string()
+            .max(60)
     })
 
     return Schema.validate(user)
