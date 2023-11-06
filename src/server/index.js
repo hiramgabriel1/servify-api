@@ -34,6 +34,9 @@ server.use(cors({
 
 // ? endpoints
 server.use(routerPermissionsUser)
+
+
+// ? secutrity endpoints
 server.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Algo salió mal!');
