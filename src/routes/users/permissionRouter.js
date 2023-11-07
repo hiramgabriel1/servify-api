@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { userPermissions, createNewDataUser } from "../../controllers/users/user.controllers.js";
 import { adminFunctions } from "../../controllers/users/user.controllers.js";
-// import { verifyToken } from "../../helpers/jwt.config.js";
+import cacheInit from "../../middlewares/cacheInit.js";
 
 const permissionController = new userPermissions()
 const makeUser = new createNewDataUser()
@@ -29,7 +29,7 @@ routerPermissionsUser.post(`${path}/v1/create-provider`, (req, res) => {
 
 // TODO: DEV endpoints
 // & show all users
-routerPermissionsUser.get(`${path}/v1/admin/users`, (req, res) => {
+routerPermissionsUser.get(`${path}/v1/admin/users`, cacheInit, (req, res) => {
     admin.showUsers(req, res)
 })
 

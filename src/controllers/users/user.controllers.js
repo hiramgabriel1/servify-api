@@ -4,6 +4,7 @@ import { encryptPassword, comparePassword } from "../../middlewares/hash.passwor
 import bcrypt, { hash } from "bcrypt"
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
+import redis from "redis"
 
 dotenv.config()
 
@@ -11,7 +12,7 @@ export class userPermissions {
 
     async authorizationUser(req, res) {
         try {
-
+            // dependiendo el rol podrás pasar
         } catch (error) {
             console.error(error)
             throw Error(error)
@@ -52,6 +53,7 @@ export class createNewDataUser {
 
     async createUser(req, res) {
         try {
+
             const { error, value } = validateUser(req.body)
 
             if (error) {
