@@ -41,8 +41,6 @@ const providerModelDatabase = new mongoose.Schema(
     }
 )
 
-providerModelDatabase.index({ role: "role" })
-
 const providerModel = model("providers", providerModelDatabase)
 
 // ? validation data model

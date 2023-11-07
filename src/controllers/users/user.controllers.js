@@ -60,7 +60,7 @@ export class createNewDataUser {
                         error.details[0].message
                 })
 
-                return
+                return false
             }
 
             const { username, lastname, numberPhone, email, password } = value
@@ -139,7 +139,8 @@ export class createNewDataUser {
                 password,
                 nameCorporate,
                 nameService,
-                experience
+                experience,
+                role
             } = value
 
             const hashedPassword = await encryptPassword(password)
@@ -183,7 +184,8 @@ export class createNewDataUser {
                 password: hashedPassword,
                 nameCorporate: nameCorporate,
                 nameService: nameService,
-                experience: experience
+                experience: experience,
+                role: role.toLowerCase()
             }
 
             const saveInDatabase = await providerModel.create(userData)
