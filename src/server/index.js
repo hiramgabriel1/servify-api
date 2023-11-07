@@ -5,6 +5,7 @@ import cors from "cors"
 import rateLimit from "express-rate-limit"
 import { connectionDB } from "../config/connection_db.js"
 import routerPermissionsUser from "../routes/users/permissionRouter.js"
+import routerService from "../routes/services/initialSetup.js"
 import colors from "colors"
 
 connectionDB()
@@ -34,7 +35,7 @@ server.use(cors({
 
 // ? endpoints
 server.use(routerPermissionsUser)
-
+server.use(routerService)
 
 // ? secutrity endpoints
 server.use((err, req, res, next) => {
