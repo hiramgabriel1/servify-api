@@ -42,4 +42,12 @@ export class services {
     //         console.error(error)
     //     }
     // }
+
+    async popularServices(req, res){
+        try {
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
